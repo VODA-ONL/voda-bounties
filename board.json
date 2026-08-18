@@ -1,0 +1,124 @@
+{
+ "format": "voda-board/1",
+ "escrow_pubkey": "43cec44f58488fc395c0ad8076fdcc5974bfd4f34e767fb29435572469680c3f",
+ "escrow_pond": "pond/",
+ "fee_bps": 500,
+ "head_version": 3,
+ "bounties": [
+  {
+   "bounty_id": "balancer-rounding-leak",
+   "title": "Balancer-style rounding leak: shrink the pool invariant",
+   "predicate": "# A constant-product pool (k = x * y). A trader adds dx; the pool computes its new\n# y-reserve by integer division \u2014 rounding the reserve it KEEPS down. Show a\n# trade after which the invariant has SHRUNK: value leaked to the trader.\nk = x * y\ny_new = k // (x + dx)\nresult = (x > 0 and y > 0 and dx > 0 and (x + dx) * y_new < k)\n",
+   "witness_names": [
+    "x",
+    "y",
+    "dx"
+   ],
+   "reward_minor": 100000000,
+   "currency": "USDC",
+   "deadline": "2026-12-31T00:00:00Z",
+   "posted_at": "2026-08-18T11:22:49Z",
+   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
+   "bounty_path": "bounties/balancer-rounding-leak.json",
+   "status": "settled",
+   "solver": "0xHAIKU-SOLVER-01",
+   "witness_literals": {
+    "x": "4",
+    "y": "4",
+    "dx": "1"
+   },
+   "payout_minor": 95000000,
+   "fee_minor": 5000000,
+   "settled_at": "2026-08-18T11:23:39Z",
+   "settlement_path": "settlements/balancer-rounding-leak.json",
+   "proof_path": "pond/drops/settle-balancer-rounding-leak.json",
+   "proof_content_id": "bc33f8df0cbf7740ced0a45ac61d9cd04106a4edba3f3e3ff7bebff7883eb7b6"
+  },
+  {
+   "bounty_id": "erc4626-inflation",
+   "title": "ERC-4626 inflation: mint the victim zero shares",
+   "predicate": "# Vault has 1 share backed by 1 wei (attacker's seed deposit). Attacker donates\n# `donation` wei directly. Then a victim deposits `victim` wei (>= 1 ETH).\n# Show a donation for which the victim's ENTIRE deposit mints zero shares.\nvictim_shares = victim * 1 // (1 + donation)\nresult = (donation > 0 and victim >= 10**18 and victim_shares == 0)\n",
+   "witness_names": [
+    "donation",
+    "victim"
+   ],
+   "reward_minor": 100000000,
+   "currency": "USDC",
+   "deadline": "2026-12-31T00:00:00Z",
+   "posted_at": "2026-08-18T11:22:49Z",
+   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
+   "bounty_path": "bounties/erc4626-inflation.json",
+   "status": "settled",
+   "solver": "0xHAIKU-SOLVER-01",
+   "witness_literals": {
+    "donation": "1000000000000000000",
+    "victim": "1000000000000000000"
+   },
+   "payout_minor": 95000000,
+   "fee_minor": 5000000,
+   "settled_at": "2026-08-18T11:23:44Z",
+   "settlement_path": "settlements/erc4626-inflation.json",
+   "proof_path": "pond/drops/settle-erc4626-inflation.json",
+   "proof_content_id": "9d9359ccc7c643fb11766112a064d4062b68a581c559f01ae6d51560eace41e9"
+  },
+  {
+   "bounty_id": "signed-div-mismatch",
+   "title": "Solidity / vs Python //: make a ported formula disagree",
+   "predicate": "# Solidity's `/` truncates toward zero; Python's `//` floors. A price/fee formula\n# ported between them silently disagrees for some (a, b). Show a pair, with the\n# Solidity result reproduced in pure arithmetic, where the two differ.\nq_python = a // b\nq_solidity = -((-a) // b) if (a < 0) != (b < 0) else a // b\nresult = (b != 0 and abs(a) < 2**63 and abs(b) < 2**63 and q_python != q_solidity)\n",
+   "witness_names": [
+    "a",
+    "b"
+   ],
+   "reward_minor": 100000000,
+   "currency": "USDC",
+   "deadline": "2026-12-31T00:00:00Z",
+   "posted_at": "2026-08-18T11:22:49Z",
+   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
+   "bounty_path": "bounties/signed-div-mismatch.json",
+   "status": "settled",
+   "solver": "0xHAIKU-SOLVER-01",
+   "witness_literals": {
+    "a": "-5",
+    "b": "2"
+   },
+   "payout_minor": 95000000,
+   "fee_minor": 5000000,
+   "settled_at": "2026-08-18T11:23:49Z",
+   "settlement_path": "settlements/signed-div-mismatch.json",
+   "proof_path": "pond/drops/settle-signed-div-mismatch.json",
+   "proof_content_id": "144cc4947f24faa6cd68127e435ff28bc014ab52084a6b25b79d588bd07bb0c8"
+  },
+  {
+   "bounty_id": "muldiv-order-loss",
+   "title": "Divide-before-multiply: under-pay by \u2265 1 ETH",
+   "predicate": "# (x * y) / d computed as (x / d) * y loses precision. Show inputs (all below\n# 2**128, d > 0) where the naive order UNDER-pays by at least 10**18 wei \u2014 the\n# classic \"divide before multiply\" bug in fee and share math.\none_step = (x * y) // d\ntwo_step = (x // d) * y\nresult = (0 < d < 2**128 and 0 < x < 2**128 and 0 < y < 2**128 and one_step - two_step >= 10**18)\n",
+   "witness_names": [
+    "x",
+    "y",
+    "d"
+   ],
+   "reward_minor": 50000000,
+   "currency": "USDC",
+   "deadline": "2026-12-31T00:00:00Z",
+   "posted_at": "2026-08-18T11:22:50Z",
+   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
+   "bounty_path": "bounties/muldiv-order-loss.json",
+   "status": "open"
+  },
+  {
+   "bounty_id": "fee-dust-dodge",
+   "title": "Fee dust: pin the exact fee-free boundary at 30 bps",
+   "predicate": "# fee = amount * fee_bps // 10000. Show the LARGEST amount, at a 30 bps fee, that\n# is transferred entirely fee-free \u2014 AND that one more wei starts paying. The\n# witness must be exact: this pins the dodge boundary, not just an example.\nfee_at = amount * 30 // 10000\nfee_next = (amount + 1) * 30 // 10000\nresult = (amount > 0 and fee_at == 0 and fee_next == 1)\n",
+   "witness_names": [
+    "amount"
+   ],
+   "reward_minor": 50000000,
+   "currency": "USDC",
+   "deadline": "2026-12-31T00:00:00Z",
+   "posted_at": "2026-08-18T11:22:50Z",
+   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
+   "bounty_path": "bounties/fee-dust-dodge.json",
+   "status": "open"
+  }
+ ]
+}
