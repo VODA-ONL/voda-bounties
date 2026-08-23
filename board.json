@@ -87,38 +87,6 @@
    "settlement_path": "settlements/signed-div-mismatch.json",
    "proof_path": "pond/drops/settle-signed-div-mismatch.json",
    "proof_content_id": "144cc4947f24faa6cd68127e435ff28bc014ab52084a6b25b79d588bd07bb0c8"
-  },
-  {
-   "bounty_id": "muldiv-order-loss",
-   "title": "Divide-before-multiply: under-pay by \u2265 1 ETH",
-   "predicate": "# (x * y) / d computed as (x / d) * y loses precision. Show inputs (all below\n# 2**128, d > 0) where the naive order UNDER-pays by at least 10**18 wei \u2014 the\n# classic \"divide before multiply\" bug in fee and share math.\none_step = (x * y) // d\ntwo_step = (x // d) * y\nresult = (0 < d < 2**128 and 0 < x < 2**128 and 0 < y < 2**128 and one_step - two_step >= 10**18)\n",
-   "witness_names": [
-    "x",
-    "y",
-    "d"
-   ],
-   "reward_minor": 50000000,
-   "currency": "USDC",
-   "deadline": "2026-12-31T00:00:00Z",
-   "posted_at": "2026-08-18T11:22:50Z",
-   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
-   "bounty_path": "bounties/muldiv-order-loss.json",
-   "status": "open"
-  },
-  {
-   "bounty_id": "fee-dust-dodge",
-   "title": "Fee dust: pin the exact fee-free boundary at 30 bps",
-   "predicate": "# fee = amount * fee_bps // 10000. Show the LARGEST amount, at a 30 bps fee, that\n# is transferred entirely fee-free \u2014 AND that one more wei starts paying. The\n# witness must be exact: this pins the dodge boundary, not just an example.\nfee_at = amount * 30 // 10000\nfee_next = (amount + 1) * 30 // 10000\nresult = (amount > 0 and fee_at == 0 and fee_next == 1)\n",
-   "witness_names": [
-    "amount"
-   ],
-   "reward_minor": 50000000,
-   "currency": "USDC",
-   "deadline": "2026-12-31T00:00:00Z",
-   "posted_at": "2026-08-18T11:22:50Z",
-   "poster_pubkey": "4203a7009d3ac7386f04fd5de2970eef5bda3022c0bd42b8a2f25d7feebff1bd",
-   "bounty_path": "bounties/fee-dust-dodge.json",
-   "status": "open"
   }
  ]
 }

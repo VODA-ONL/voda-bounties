@@ -1,6 +1,11 @@
-# Voda Bounties
+# Voda Bounties (closed to new submissions)
 
 **Money that moves the instant math proves a claim.**
+
+> **Status: closed.** This board is not accepting new bounties. The three below were posted,
+> solved, and paid as a working demonstration of the mechanism (2026-08-18) — their signed proofs
+> stay live and verifiable below, permanently. Two bounties that were left open have been withdrawn
+> and removed; no reward is outstanding. See [v0 honesty](#v0-honesty).
 
 A poster escrows a reward behind a *predicate with holes* — a pure, sandboxed
 check whose free variables (the witness) a solver must supply. A solver — human
